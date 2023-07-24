@@ -130,7 +130,22 @@ def main():
     sales_columns = get_last_5_entries_sales()
     stock_data = calculate_stock_data(sales_columns)
     update_worksheet(stock_data, "stock")
+    return stock_data
 
 print("Welcome to Love Sandwiches Data Automation")
-main()
+stock_data = main()
 
+def get_stock_values(data):
+    """
+    Create a dictionary using the headings as keys and the data as values.
+    """
+
+    headings = SHEET.worksheet('stock').get_all_values()[0]
+    
+    stock_values = {headings[i]: data[i] for i in range(len(headings))}
+    
+    return stock_values
+    
+stock_values = get_stock_values(stock_data)
+
+print(f'Make the following numbers of sandwiches for next market:\n {stock_values}')
